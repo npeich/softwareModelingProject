@@ -1,10 +1,15 @@
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Map;
+import java.io.PrintWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class ManagementSystem {
 
-    public HashMap<Integer, User> users = new HashMap<>();
+    public HashMap<User, String> usersText = new HashMap<>();
+    public HashMap<String, User> users = new HashMap<>();
 
     public void createUser(User test) {
         Scanner scan = new Scanner(System.in);
@@ -38,46 +43,42 @@ public class ManagementSystem {
         //adds new user to map of users
         addUser(test);
 
+        //create text file
+        String fileName = "/Users/natalieeichorn/Desktop/";
+        fileName += test.name + ".txt";
+        try {
+            PrintWriter outputStream = new PrintWriter(fileName);
+            outputStream.println(test);
+            outputStream.close();
+            System.out.println("***User added!***");
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public void addUser(User u) {
-        users.put(u.flyerNumber, u);
+        String f = u.name + ".txt";
+
+        usersText.put(u, f);
         //System.out.println(users);
+        users.put(u.name, u);
     }
 
+    //check to see if it exists
+    //return that it mactches username and password being passed to Mgmt Sys
+    //returns true if user exists
+    //returns false if user does not exist
+    public boolean checkUser(User u) {
+        if (usersText.containsKey(u)) {
+            return true;
+        }
+        return false;
+    }
 
-    /*public static void main(String[] args) {
-        String decision = "";
-        char code;
+    public User returnUser(String u) {
 
-        System.out.println("**WELCOME TO THE MANAGEMENT SYSTEM**");
-
-        do {
-            Scanner scanning = new Scanner(System.in);
-
-            System.out.println("Choose Menu Item: ");
-            System.out.println("u = create new user");
-            System.out.println("l = view user");
-            System.out.println("e = exit");
-            System.out.print("Enter Menu Item: ");
-
-            String type = scanning.nextLine();
-            code = type.toUpperCase().charAt(0);
-
-            switch (code) {
-                case 'U':
-                    System.out.println("Your decision is " + decision);
-                    System.out.println("Creating new User...");
-
-                    User u = new User("", "", 0, "");
-
-                    createUser(u);
-
-                    System.out.println("\nUser " + u.getFlyerNum() + ": " + u.getName() + " created");
-                    break;
-            }
-        }while(code!='E');
-
-    }*/
-
+        User returner = users.get(u);
+        return returner;
+    }
 }

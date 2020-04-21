@@ -54,13 +54,4 @@ public class User {
         return output;
     }
 
-    /*public static void main (String[] args) {
-        User u1 = new User("Natalie Eichorn", "1783 w ave", 123456, 'r');
-
-        System.out.println(u1);
-
-        u1.setCardType('g');
-
-        System.out.println(u1);
-    }*/
 }
